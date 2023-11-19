@@ -1,13 +1,14 @@
-import { TOKEN_SECRET } from '../config.js'
 import jwt from 'jsonwebtoken'
 
 export function createAccessToken(payload) {
+  if (typeof payload !== 'object') {
+    return 'payload no es an object'
+  }
+
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
-      TOKEN_SECRET,
-      { id: userSaved._id },
-      'secret123',
+      process.env.TOKEN_SECRET || '',
       { expiresIn: '1d' },
       (err, token) => {
         if (err) reject(err) //si hay un error devuelve el error
